@@ -39,7 +39,7 @@ def main(args):
         
     for target_repo in target_repo_list:
         target_repo_name = target_repo["name"]
-        target_repo_default_branch_name = target_repo["defaultBranchRef"]["name"]
+        target_repo_default_branch_name = f"ruskinb1/{target_repo["defaultBranchRef"]["name"]}"
         print(target_repo_name)
         print(target_repo_default_branch_name)
         
