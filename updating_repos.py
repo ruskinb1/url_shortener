@@ -40,6 +40,8 @@ def main(args):
     for target_repo in target_repo_list:
         target_repo_name = target_repo["name"]
         target_repo_default_branch_name = target_repo["defaultBranchRef"]["name"]
+        print(target_repo_name)
+        print(target_repo_default_branch_name)
         
         create_branch(target_repo_name, target_repo_default_branch_name, args.target_branch)
         create_file(target_repo_name, args.target_branch, args.source_file)
