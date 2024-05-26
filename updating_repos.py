@@ -37,7 +37,7 @@ def main(args):
     with open('target_repos.json') as f:
         target_repo_list = json.load(f)
         
-    for target_repo in target_repos_list:
+    for target_repo in target_repo_list:
         target_repo_name = target_repo["name"]
         target_repo_default_branch_name = target_repo["defaultBranchRef"]["name"]
         
