@@ -1,8 +1,6 @@
 name:  File Migrator
 
-permissions:
-  id-token: write
-  contents: read
+permissions: read-all
 
 on:
   workflow_dispatch:      
