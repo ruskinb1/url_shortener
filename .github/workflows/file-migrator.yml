@@ -46,7 +46,7 @@ jobs:
       
       - name: Create branch add file and raise PR
         run: |
-          python updating_repos.py --source_repos=${{ github.event.inputs.source_repo }} --source_branch=${{ github.event.inputs.source_branch }} --target_branch=${{ github.event.inputs.target_branch }} --source_file=${{ github.event.inputs.source_file }}
+          python updating_repos.py --source_repo=${{ github.event.inputs.source_repo }} --target_branch=${{ github.event.inputs.target_branch }} --source_file=${{ github.event.inputs.source_file }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
