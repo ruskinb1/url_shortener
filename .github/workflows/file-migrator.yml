@@ -23,7 +23,7 @@ on:
         description: 'source file need to be copied from source repos to all target repos'
         required: true 
         type: string 
-        default: "./github/workflows/file-migrator.yml"
+        default: ".github/workflows/file-migrator.yml"
 
       
 
