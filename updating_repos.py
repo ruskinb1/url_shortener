@@ -24,8 +24,6 @@ def create_pr(target_repo, source_branch, target_branch, title, body):
 
 def main(args):
     ''' Method to getting the arguments and calling the copy_module function'''
-    token = os.environ["SECRET_TOKEN"]
-    g = Github(token)
     parser = argparse.ArgumentParser(description='File arguments for file creation in repos')
     parser.add_argument("--source_repo", help="source_repo")
     parser.add_argument("--target_branch", help="target_branch")
@@ -47,4 +45,6 @@ def main(args):
         create_pr(target_repo_name, target_repo_default_branch_name, args.target_branch, title, body)
 
 if __name__ == "__main__":
+    token = os.environ["SECRET_TOKEN"]
+    g = Github(token)
     main(sys.argv)
