@@ -5,21 +5,21 @@ import os
 import sys
 import json
 
-def create_branch(target_repo, source_branch, target_branch):
-    repo = g.get_repo(target_repo)
+def create_branch(target_repo_name, source_branch, target_branch):
+    repo = g.get_repo(target_repo_name)
     sb = repo.get_branch(source_branch)
     repo.create_git_ref(ref=f'refs/heads/{target_branch}', sha=sb.commit.sha)
 
 
-def create_file(target_repo, target_branch, source_file):
-    repo = g.get_repo(target_repo)
+def create_file(target_repo_name, target_branch, source_file):
+    repo = g.get_repo(target_repo_name)
     with open(source_file) as file:
         data = file.read()
     repo.create_file("source_file", f"{source_file} created", data, branch=target_branch)
 
 
-def create_pr(target_repo, source_branch, target_branch, title, body):
-    repo = g.get_repo(target_repo)
+def create_pr(target_repo_name, source_branch, target_branch, title, body):
+    repo = g.get_repo(target_repo_name)
     pr = repo.create_pull(base=source_branch, head=target_branch, title= title, body=body)
 
 
