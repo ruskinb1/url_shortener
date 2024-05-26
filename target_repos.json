@@ -1,0 +1,20 @@
+[
+    {
+        "defaultBranchRef": {
+            "name": "main"
+        },
+        "name": "git_practice"
+    },
+    {
+        "defaultBranchRef": {
+            "name": "main"
+        },
+        "name": "Powershell-script-ses"
+    },
+    {
+        "defaultBranchRef": {
+            "name": "main"
+        },
+        "name": "state-migrator"
+    }
+]
