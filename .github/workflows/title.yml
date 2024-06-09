@@ -110,7 +110,7 @@ jobs:
             }
           else{
               Invoke-RestMethod -Uri $url -Headers $headers -Method Delete     
-              Write-Error "The work item in the PR Title is not valid, deleting the work link comment"
+              Write-Error "The work item in the PR Title is not valid"
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
