@@ -17,5 +17,5 @@ on:
 permissions: write-all
 jobs:
   call_workflow_in_b:
-    # Reference the reusable workflow in Repository B
+    # Reference the reusable workflow in Repository.
     uses: ruskinb1/test-passing-secret/.github/workflows/print-B-secret.yml@main # Point to the reusable workflow in Repository B
