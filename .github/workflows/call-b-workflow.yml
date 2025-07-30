@@ -1,0 +1,18 @@
+name: Trigger B Workflow
+
+on:
+  push:
+    branches:
+      - main # Trigger this when there's a push to the main branch
+
+jobs:
+  trigger_b_workflow:
+    name: Trigger Workflow in Repository B
+    runs-on: ubuntu-latest
+
+    steps:
+      # Triggering Repository B's workflow using the `workflow_call` feature
+      - name: Call Workflow in Repository B
+        uses: ruskinb1/test-passing-secret/.github/workflows/print-secret.yml@main
+        with:
+          trigger_by: "Workflow from Repository A"
