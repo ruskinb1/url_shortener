@@ -8,7 +8,7 @@ on:
 jobs:
   call_workflow_in_b:
     # Reference the reusable workflow in Repository B
-    uses: b/.github/workflows/print-secret.yml@main # Point to the reusable workflow in Repository B
+    uses: ruskinb1/test-passing-secret/.github/workflows/print-secret.yml@main # Point to the reusable workflow in Repository B
 
     # Optional: Pass inputs, if required by the workflow in Repository B
     with:
