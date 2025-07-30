@@ -10,7 +10,9 @@ on:
     branches:
       - main
       - '20**-main'
-      
+  push:
+    branches:
+      - main
 
 permissions: write-all
 jobs:
