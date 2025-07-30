@@ -1,14 +1,12 @@
 name: Trigger Workflow in Repository B
 
 on:
-  push:
-    branches:
-      - main
-  pull_request_target:
+  pull_request:
     types:
       - opened
       - edited
       - reopened
+      - synchronize
     branches:
       - main
       - '20**-main'
