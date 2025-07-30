@@ -14,3 +14,5 @@ jobs:
     # Optional: Pass inputs, if required by the workflow in Repository B
     with:
       trigger_by: "Workflow triggered by Repository A"
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
