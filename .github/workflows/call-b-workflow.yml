@@ -5,6 +5,7 @@ on:
     branches:
       - main # Trigger this workflow on pushes to the `main` branch
 
+permissions: write-all
 jobs:
   call_workflow_in_b:
     # Reference the reusable workflow in Repository B
