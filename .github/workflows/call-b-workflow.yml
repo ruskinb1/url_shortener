@@ -3,7 +3,7 @@ name: Trigger Workflow in Repository B
 on:
   push:
     branches:
-      - main # Trigger this workflow on pushes to the `main` branch
+      - main # Trigger this workflow on pushes to the `main`
 
 permissions: write-all
 jobs:
