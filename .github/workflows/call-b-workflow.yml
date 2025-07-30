@@ -3,7 +3,15 @@ name: Trigger Workflow in Repository B
 on:
   push:
     branches:
-      - main # Trigger this workflow on pushes to the `main` and accessing repository b secre
+      - main
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+    branches:
+      - main
+      - '20**-main'
       
 
 permissions: write-all
