@@ -3,7 +3,7 @@ from github import Github
 import argparse
 import os
 import sys
-import json
+
 
 def create_branch(target_repo_name, source_branch, target_branch):
     repo = g.get_repo(target_repo_name)
