@@ -1,18 +1,18 @@
 name: Trigger Workflow in Repository B
 
 on:
-  pull_request:
+  push:
+    branches:
+      - main
+  pull_request_target:
     types:
       - opened
       - edited
       - reopened
-      - synchronize
+      - synchronize # Add this to trigger on new commits to the PR
     branches:
       - main
       - '20**-main'
-  push:
-    branches:
-      - main
       
 
 permissions: write-all
