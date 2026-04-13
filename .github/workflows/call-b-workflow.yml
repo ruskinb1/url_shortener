@@ -1,21 +1,17 @@
-name: Trigger Workflow in Repository B
+name: Caller Workflow
 
 on:
   push:
-    branches:
-      - main
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - reopened
-      - synchronize # Add this to trigger on new commits to the PR
-    branches:
-      - main
-      - '20**-main'
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      config_path:
+        description: 'Path to config YAML'
+        required: false
+        default: '.github/workflow-config.yaml'
 
-permissions: write-all
 jobs:
-  call_workflow_in_b:
-    # Reference the reusable workflow in Repository B
-    uses: ruskinb1/test-passing-secret/.github/workflows/print-B-secret.yml@main # Point to the reusable workflow in Repository B
+  call-reusable:
+    uses: your-org/your-repo/.github/workflows/reusable.yml@main
+    with:
+      config_path: ${{ github.event.inputs.config_path || '.github/workflow-config.yaml' }}
