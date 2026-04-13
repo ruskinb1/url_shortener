@@ -4,14 +4,7 @@ on:
   push:
   pull_request:
   workflow_dispatch:
-    inputs:
-      config_path:
-        description: 'Path to config YAML'
-        required: false
-        default: '.github/workflow-config.yaml'
 
 jobs:
   call-reusable:
     uses: ruskinb1/test-passing-secret/.github/workflows/reusable.yml@main
-    with:
-      config_path: ${{ github.event.inputs.config_path || '.github/workflow-config.yaml' }}
