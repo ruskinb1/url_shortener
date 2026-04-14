@@ -10,4 +10,4 @@ jobs:
     uses: ruskinb1/test-passing-secret/.github/workflows/reusable.yml@main
     with:
       bool_input: "false"
-      another_bool: "true"
+      another_bool: 'true'
