@@ -9,5 +9,5 @@ jobs:
   call-reusable:
     uses: ruskinb1/test-passing-secret/.github/workflows/reusable.yml@main
     with:
-      bool_input: false
-      another_bool: true
+      bool_input: 'false'
+      another_bool: 'true'
