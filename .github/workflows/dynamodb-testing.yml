@@ -31,7 +31,7 @@ jobs:
             --attribute-definitions AttributeName=repo_name,AttributeType=S AttributeName=branch_name,AttributeType=S \
             --key-schema AttributeName=repo_name,KeyType=HASH AttributeName=branch_name,KeyType=RANGE \
             --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
-            --endpoint-url http://localhost:8000
+            --endpoint-url http://localhost:8000 \
             --region us-east-1
 
       - name: Increment Counter (Atomic)
@@ -42,7 +42,7 @@ jobs:
             --update-expression "SET counter = if_not_exists(counter, :zero) + :inc" \
             --expression-attribute-values '{":inc": {"N": "1"}, ":zero": {"N": "0"}}' \
             --return-values UPDATED_NEW \
-            --endpoint-url http://localhost:8000
+            --endpoint-url http://localhost:8000 \
             --region us-east-1
 
       - name: Get Counter Value
@@ -50,5 +50,5 @@ jobs:
           aws dynamodb get-item \
             --table-name repo-branch-counters \
             --key '{"repo_name": {"S": "my-org/my-repo"}, "branch_name": {"S": "main"}}' \
-            --endpoint-url http://localhost:8000 | jq
+            --endpoint-url http://localhost:8000 | jq \
             --region us-east-1
