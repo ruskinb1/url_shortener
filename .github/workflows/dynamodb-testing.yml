@@ -14,6 +14,11 @@ jobs:
         ports:
           - 8000:8000
 
+    env:
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
+      AWS_DEFAULT_REGION: us-east-1
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -50,5 +55,5 @@ jobs:
           aws dynamodb get-item \
             --table-name repo-branch-counters \
             --key '{"repo_name": {"S": "my-org/my-repo"}, "branch_name": {"S": "main"}}' \
-            --endpoint-url http://localhost:8000 | jq \
-            --region us-east-1
+            --endpoint-url http://localhost:8000 \
+            --region us-east-1 | jq
