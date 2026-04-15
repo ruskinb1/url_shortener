@@ -44,7 +44,8 @@ jobs:
           aws dynamodb update-item \
             --table-name repo-branch-counters \
             --key '{"repo_name": {"S": "my-org/my-repo"}, "branch_name": {"S": "main"}}' \
-            --update-expression "SET counter = if_not_exists(counter, :zero) + :inc" \
+            --update-expression "SET #ctr = if_not_exists(#ctr, :zero) + :inc" \
+            --expression-attribute-names '{"#ctr":"counter"}' \
             --expression-attribute-values '{":inc": {"N": "1"}, ":zero": {"N": "0"}}' \
             --return-values UPDATED_NEW \
             --endpoint-url http://localhost:8000 \
