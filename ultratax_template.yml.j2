@@ -1,0 +1,52 @@
+name: Build and deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      ValidateOnly:
+        description: Please select whether to only validate the build without deploying.
+        required: false
+        type: boolean
+        default: false
+
+      CodeSigningCertificateType:
+        description: Please select the certificate type to use for code signing.
+        required: true
+        type: choice
+        options:
+          - Dev
+          - Production
+        default: Dev
+
+      PublicationTargets:
+        description: "Comma-separated list of publication targets. Possible values: STest, FTest, DevTest"
+        required: false
+        type: string
+        default: "{{ PublicationTargets }}"
+
+  push:
+    branches:
+      - dev
+      - '20*-main'
+
+  pull_request:
+
+permissions: write-all
+jobs:
+  pipeline:
+    uses: tr/cs-prof_tax-common-utilities/.github/workflows/ultratax-workflow.yaml@main
+    with:
+      # Set ValidateOnly to true for pull_request events, otherwise use the manual input or default to false
+      ValidateOnly: ${{ github.event_name == 'pull_request' || inputs.ValidateOnly || false }}
+
+      # For workflow_dispatch, use input; for push/pull_request, default to Dev
+      CodeSigningCertificateType: ${{ inputs.CodeSigningCertificateType || 'Dev' }}
+
+      # Comma-separated list of solution files to build (paths relative to the repo root; whitespaces around commas will be trimmed)
+      # Example: "src/solution1.sln, src/solution2.sln"
+      SolutionFiles: "{{ SolutionPath }}"
+
+      # Specify the location of NuGet.config if it's not in the default path
+      NugetConfigFile: src/NuGet.config
+
+      PublicationTargets: {% raw %}${{ inputs.PublicationTargets || '{{ PublicationTargets }}' }}{% endraw %}

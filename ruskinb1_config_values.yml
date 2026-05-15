@@ -1,0 +1,10 @@
+DEV:
+  ruskinb1/test-repo-1:
+    PublicationTargets: STest
+    SolutionPath: src/1040al.sln
+  ruskinb1/test-repo-2:
+    PublicationTargets: STest
+    SolutionPath: src/1040ar.sln
+  ruskinb1/test-repo-3:
+    PublicationTargets: STest
+    SolutionPath: src/1040az.sln
