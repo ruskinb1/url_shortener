@@ -1,6 +1,6 @@
 DEV:
   ruskinb1/test-repo-1:
-    PublicationTargets: STest
+    PublicationArea: STest
     SolutionPath: src/1040al.sln
   ruskinb1/test-repo-2:
     PublicationTargets: STest

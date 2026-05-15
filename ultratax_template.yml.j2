@@ -22,7 +22,7 @@ on:
         description: "Comma-separated list of publication targets. Possible values: STest, FTest, DevTest"
         required: false
         type: string
-        default: "{{ PublicationTargets }}"
+        default: "{{ PublicationArea }}"
 
   push:
     branches:
@@ -49,4 +49,4 @@ jobs:
       # Specify the location of NuGet.config if it's not in the default path
       NugetConfigFile: src/NuGet.config
 
-      {% raw %}PublicationTargets: ${{ inputs.PublicationTargets || '{{ PublicationTargets }}' }}{% endraw %}
+      {% raw %}PublicationTargets: ${{ inputs.PublicationTargets || '{% endraw %}{{ PublicationArea }}{% raw %}' }}{% endraw %}
