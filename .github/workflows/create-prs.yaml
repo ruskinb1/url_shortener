@@ -1,0 +1,130 @@
+name: Multi-Repo Branch & PR Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Name of the new branch'
+        required: false
+        default: 'feature/new-branch'
+        type: string
+      pr_title:
+        description: 'Title for the Pull Request'
+        required: false
+        default: 'Automated PR'
+        type: string
+      file_name:
+        description: 'File to create in each repo'
+        required: false
+        default: 'newfile.txt'
+        type: string
+      config_file:
+        description: 'Config file name'
+        required: false
+        default: 'config.yaml'
+        type: string
+      repos_file:
+        description: 'Repos file name'
+        required: false
+        default: 'repos.txt'
+        type: string
+      template_file:
+        description: 'Jinja template file name'
+        required: false
+        default: 'template.j2'
+        type: string
+
+jobs:
+  process-repos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repo (for scripts, config, and repos file)
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install PyYAML Jinja2 GitPython
+
+      - name: Run multi-repo PR script
+        env:
+          GH_TOKEN: ${{ secrets.MY_GH_TOKEN }}
+        run: |
+          python <<'EOF'
+          import os
+          import yaml
+          import jinja2
+          from github import Github
+          from git import Repo
+          import tempfile
+
+          # Inputs
+          branch_name = "${{ github.event.inputs.branch_name }}"
+          pr_title = "${{ github.event.inputs.pr_title }}"
+          file_name = "${{ github.event.inputs.file_name }}"
+          config_file = "${{ github.event.inputs.config_file }}"
+          repos_file = "${{ github.event.inputs.repos_file }}"
+          template_file = "${{ github.event.inputs.template_file }}"
+
+          # Load repos list
+          with open(repos_file) as f:
+              repos = [line.strip() for line in f if line.strip()]
+
+          # Load config
+          with open(config_file) as f:
+              config = yaml.safe_load(f)
+
+          # Load Jinja template
+          with open(template_file) as f:
+              template_str = f.read()
+          template = jinja2.Template(template_str)
+
+          gh = Github(os.environ['GH_TOKEN'])
+          pr_links = []
+
+          for repo_path in repos:
+              repo_config = config.get('DEV', {}).get(repo_path, {})
+              if not repo_config:
+                  print(f"Skipping {repo_path}: No config found.")
+                  continue
+
+              # Clone repo
+              with tempfile.TemporaryDirectory() as tmpdir:
+                  repo_url = f"https://x-access-token:{os.environ['GH_TOKEN']}@github.com/{repo_path}.git"
+                  repo = Repo.clone_from(repo_url, tmpdir)
+                  git = repo.git
+
+                  # Create branch
+                  git.checkout('-b', branch_name)
+
+                  # Render file
+                  file_content = template.render(**repo_config)
+                  file_path = os.path.join(tmpdir, file_name)
+                  os.makedirs(os.path.dirname(file_path), exist_ok=True)
+                  with open(file_path, 'w') as f:
+                      f.write(file_content)
+
+                  repo.index.add([file_name])
+                  repo.index.commit(f"Add {file_name} via workflow")
+                  git.push('--set-upstream', 'origin', branch_name)
+
+              # Create PR
+              gh_repo = gh.get_repo(repo_path)
+              pr = gh_repo.create_pull(
+                  title=pr_title,
+                  body=f"Automated PR to add {file_name} using workflow.",
+                  head=branch_name,
+                  base='main'  # or 'DEV' if that's your default branch
+              )
+              pr_links.append(f"{repo_path}: {pr.html_url}")
+
+          print("PR Links:")
+          for link in pr_links:
+              print(link)
+          EOF
+
+      - name: Output PR links
+        run: echo "See logs above for PR links."
