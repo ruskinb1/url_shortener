@@ -16,22 +16,27 @@ on:
       file_name:
         description: 'File to create in each repo'
         required: false
-        default: 'newfile.txt'
+        default: '.github/workflows/build-and-deploy.yml'
         type: string
       config_file:
         description: 'Config file name'
         required: false
-        default: 'config.yaml'
+        default: 'ruskinb1_config_values.yml'
         type: string
       repos_file:
         description: 'Repos file name'
         required: false
-        default: 'repos.txt'
+        default: 'ruskinb1_test_repos.txt'
         type: string
       template_file:
         description: 'Jinja template file name'
         required: false
-        default: 'template.j2'
+        default: 'ultratax_template.yml.j2'
+        type: string
+      base_branch:
+        description: 'Base branch to create new branch from and open PR against'
+        required: false
+        default: 'dev'
         type: string
 
 jobs:
@@ -68,6 +73,7 @@ jobs:
           config_file = "${{ github.event.inputs.config_file }}"
           repos_file = "${{ github.event.inputs.repos_file }}"
           template_file = "${{ github.event.inputs.template_file }}"
+          base_branch = "${{ github.event.inputs.base_branch }}"
 
           # Load repos list
           with open(repos_file) as f:
@@ -97,7 +103,8 @@ jobs:
                   repo = Repo.clone_from(repo_url, tmpdir)
                   git = repo.git
 
-                  # Create branch
+                  # Checkout base branch and create new branch
+                  git.checkout(base_branch)
                   git.checkout('-b', branch_name)
 
                   # Render file
@@ -117,7 +124,7 @@ jobs:
                   title=pr_title,
                   body=f"Automated PR to add {file_name} using workflow.",
                   head=branch_name,
-                  base='main'  # or 'DEV' if that's your default branch
+                  base=base_branch
               )
               pr_links.append(f"{repo_path}: {pr.html_url}")
 
