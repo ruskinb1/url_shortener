@@ -49,4 +49,4 @@ jobs:
       # Specify the location of NuGet.config if it's not in the default path
       NugetConfigFile: src/NuGet.config
 
-      PublicationTargets: ${{ inputs.PublicationTargets || '{{ PublicationTargets }}' }}
+      PublicationTargets: {% raw %}${{ inputs.PublicationTargets || '{{ PublicationTargets }}' }}{% endraw %}
