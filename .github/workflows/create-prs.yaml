@@ -52,7 +52,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install PyYAML Jinja2 GitPython
+        run: pip install PyYAML Jinja2 GitPython PyGithub
 
       - name: Run multi-repo PR script
         env:
